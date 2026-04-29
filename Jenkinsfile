@@ -6,12 +6,6 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
         stage('Install Backend') {
             steps {
                 dir('backend') {
@@ -38,7 +32,10 @@ pipeline {
 
         stage('Validate Docker Compose') {
             steps {
-                sh 'docker compose config'
+                sh '''
+                    export PATH="/usr/local/bin:/opt/homebrew/bin:$PATH"
+                    docker compose config
+                '''
             }
         }
     }
