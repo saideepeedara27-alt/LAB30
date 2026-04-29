@@ -7,8 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ✅ New - reads from .env
-const MONGO_URI = process.env.MONGO_URI || "mongodb://mongo:27017/myAppDB";
+const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/myAppDB";
 
 mongoose.connect(MONGO_URI)
   .then(() => console.log("✅ Local MongoDB Connected"))
