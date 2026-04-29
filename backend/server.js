@@ -13,6 +13,17 @@ mongoose.connect(MONGO_URI)
   .then(() => console.log("✅ Local MongoDB Connected"))
   .catch(err => console.log("❌ Error:", err));
 
+app.get("/", (req, res) => {
+  res.json({
+    message: "LAB30 backend is running",
+    endpoints: ["/api/user", "/api/post", "/api/student", "/api/course"]
+  });
+});
+
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok" });
+});
+
 // Routes
 app.use("/api", require("./routes"));
 
