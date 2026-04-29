@@ -4,7 +4,7 @@ services:
     build: ./backend
     container_name: lab27-backend
     ports:
-      - "5000:5000"
+      - "5050:5000"
     environment:
       - NODE_ENV=development
       - MONGO_URI=mongodb://mongo:27017/myAppDB
@@ -20,7 +20,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - REACT_APP_API_URL=http://localhost:5000/api
+      - REACT_APP_API_URL=http://localhost:5050/api
     depends_on:
       - backend
     networks:
