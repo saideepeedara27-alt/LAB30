@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 
+const API = process.env.REACT_APP_API_URL || "http://localhost:5050/api";
+
 function App() {
-// ✅ New
-const API = process.env.REACT_APP_API_URL || "http://localhost:5000/api";
   const [users, setUsers] = useState([]);
   const [name, setName] = useState("");
 
@@ -21,10 +21,10 @@ const API = process.env.REACT_APP_API_URL || "http://localhost:5000/api";
   const [selectedCourse, setSelectedCourse] = useState("");
 
   // ===== USER CRUD =====
-  const fetchUsers = async ()=> {
+  const fetchUsers = useCallback(async ()=> {
     const res = await axios.get(`${API}/user`);
     setUsers(res.data);
-  };
+  }, []);
 
   const addUser = async ()=> {
     await axios.post(`${API}/user`, {name});
@@ -47,10 +47,10 @@ const API = process.env.REACT_APP_API_URL || "http://localhost:5000/api";
     fetchPosts();
   };
 
-  const fetchPosts = async ()=> {
+  const fetchPosts = useCallback(async ()=> {
     const res = await axios.get(`${API}/post`);
     setPosts(res.data);
-  };
+  }, []);
 
   // ===== MANY TO MANY =====
   const addStudent = async ()=> {
@@ -74,22 +74,22 @@ const API = process.env.REACT_APP_API_URL || "http://localhost:5000/api";
     fetchCourses();
   };
 
-  const fetchStudents = async ()=> {
+  const fetchStudents = useCallback(async ()=> {
     const res = await axios.get(`${API}/student`);
     setStudents(res.data);
-  };
+  }, []);
 
-  const fetchCourses = async ()=> {
+  const fetchCourses = useCallback(async ()=> {
     const res = await axios.get(`${API}/course`);
     setCourses(res.data);
-  };
+  }, []);
 
   useEffect(()=>{
     fetchUsers();
     fetchPosts();
     fetchStudents();
     fetchCourses();
-  }, []);
+  }, [fetchCourses, fetchPosts, fetchStudents, fetchUsers]);
 
   return (
     <div style={{padding:"20px"}}>
